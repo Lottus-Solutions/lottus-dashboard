@@ -9,7 +9,7 @@ Este repositório contém o código-fonte da **dashboard de testes** do projeto 
 - [React.js](https://reactjs.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [JavaScript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
-- [Vite](https://vitejs.dev/) (se aplicável)
+- [Vite](https://vitejs.dev/) 
 
 ---
 
