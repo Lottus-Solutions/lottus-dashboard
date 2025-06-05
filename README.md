@@ -15,12 +15,11 @@ Este repositório contém o código-fonte da **dashboard de testes** do projeto 
 
 ## 🧪 Funcionalidades Principais
 
-- Visualização de testes UAT e automatizados
-- Acompanhamento por sprint ou funcionalidade
-- Tela de login com autenticação básica
-- Organização por abas/tabelas com filtros
-- Interface responsiva e moderna
-
+- Validação do desempenho geral da plataforma  
+- Testes por endpoint, com retorno de status HTTP e tempo de execução
+- Monitoramento do uso de memória para otimização e diagnóstico**  
+- Acompanhamento dos testes por funcionalidade e módulo
+  
 ---
 
 ## 📦 Instalação
