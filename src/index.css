@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=KoHo:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+@font-face {
+  font-family: 'Croogla 4F';
+  src: url('/public/fonts/Croogla4F.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@import "tailwindcss";
+
+:root {
+  --font-koho: 'KoHo', sans-serif;
+  --font-rubik: 'Rubik', sans-serif;
+  --font-croogla: 'Croogla 4F', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  font-smooth: always;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1 {
+  font-family: var(--font-croogla);
+}
+
+h2 {
+  font-family: var(--font-koho);
+}
+
+body {
+  font-family: var(--font-rubik);
+}
+
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #E8E8E8;
+    border-radius: 10px;
+  }
+}
