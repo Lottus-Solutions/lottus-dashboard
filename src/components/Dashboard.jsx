@@ -6,9 +6,16 @@ import { SessaoLivros } from "./SessaoLivros";
 import { SessaoTurmas } from "./SessaoTurmas";
 import { ChevronLeft } from "lucide-react";
 import { SessaoCategorias } from "./SessaoCategorias";
+import axios from "../configs/axiosConfig"; // ajuste o caminho conforme a pasta
 
 export function Dashboard() {
     const [loading, setLoading] = useState(true);
+    const [turmasData, setTurmasData] = useState(null);
+    const [alunosData, setAlunosData] = useState(null);
+    const [categoriasData, setCategoriasData] = useState(null);
+    const [livrosData, setLivrosData] = useState(null);
+    const [emprestimosData, setEmprestimosData] = useState(null);
+    const [executando, setExecutando] = useState(false);
 
     function handleLogout() {
         localStorage.removeItem("token");
@@ -16,152 +23,43 @@ export function Dashboard() {
     }
 
     useEffect(() => {
-        const timer = setTimeout(() => setLoading(false), 2000); // Simula carregamento
+        const timer = setTimeout(() => setLoading(false), 2000);
         return () => clearTimeout(timer);
     }, []);
 
-    const emprestimosJson = {
-        moduleName: "Emprestimos",
-        totalTests: 7,
-        sucessfulTests: 3,
-        failedTests: 4,
-        successPercentage: 42.857142857142854,
-        methodTestsResults: [
-            {
-                methodName: "RenovarEmprestimo",
-                totalTests: 1,
-                failedTests: 1,
-                successTests: 0,
-                avarageDurationMillisInGroup: 158.0,
-                avarageMemoryUsageMbInGroup: 450.30286407470703,
-                individualTestResults: [
-                    {
-                        testName: "Emprestimo_Renovar_Sucesso",
-                        targetEndpoint: "/emprestimos/1/renovar",
-                        success: false,
-                        durationMillis: 158,
-                        httpStatus: 404,
-                        targetServiceMemoryUsedMB: 450.30286407470703,
-                        methodGroupKey: "RenovarEmprestimo"
-                    }
-                ]
-            },
-            {
-                methodName: "NovoEmprestimo",
-                totalTests: 1,
-                failedTests: 1,
-                successTests: 0,
-                avarageDurationMillisInGroup: 84.0,
-                avarageMemoryUsageMbInGroup: 447.93956756591797,
-                individualTestResults: [
-                    {
-                        testName: "Emprestimo_Novo_Sucesso",
-                        targetEndpoint: "/emprestimos",
-                        success: false,
-                        durationMillis: 84,
-                        httpStatus: 500,
-                        targetServiceMemoryUsedMB: 447.93956756591797,
-                        methodGroupKey: "NovoEmprestimo"
-                    }
-                ]
-            },
-            {
-                methodName: "HistoricoAluno",
-                totalTests: 1,
-                failedTests: 1,
-                successTests: 0,
-                avarageDurationMillisInGroup: 52.0,
-                avarageMemoryUsageMbInGroup: 445.8964538574219,
-                individualTestResults: [
-                    {
-                        testName: "Emprestimo_HistoricoAluno_Sucesso",
-                        targetEndpoint: "/emprestimos/historico/aluno/1",
-                        success: false,
-                        durationMillis: 52,
-                        httpStatus: 500,
-                        targetServiceMemoryUsedMB: 445.8964538574219,
-                        methodGroupKey: "HistoricoAluno"
-                    }
-                ]
-            },
-            {
-                methodName: "HistoricoLivro",
-                totalTests: 1,
-                failedTests: 0,
-                successTests: 1,
-                avarageDurationMillisInGroup: 69.0,
-                avarageMemoryUsageMbInGroup: 447.95601654052734,
-                individualTestResults: [
-                    {
-                        testName: "Emprestimo_HistoricoLivro_Sucesso",
-                        targetEndpoint: "/emprestimos/historico/livro/1",
-                        success: true,
-                        durationMillis: 69,
-                        httpStatus: 200,
-                        targetServiceMemoryUsedMB: 447.95601654052734,
-                        methodGroupKey: "HistoricoLivro"
-                    }
-                ]
-            },
-            {
-                methodName: "FinalizarEmprestimo",
-                totalTests: 1,
-                failedTests: 1,
-                successTests: 0,
-                avarageDurationMillisInGroup: 90.0,
-                avarageMemoryUsageMbInGroup: 448.02030181884766,
-                individualTestResults: [
-                    {
-                        testName: "Emprestimo_Finalizar_Sucesso",
-                        targetEndpoint: "/emprestimos/1/finalizar",
-                        success: false,
-                        durationMillis: 90,
-                        httpStatus: 404,
-                        targetServiceMemoryUsedMB: 448.02030181884766,
-                        methodGroupKey: "FinalizarEmprestimo"
-                    }
-                ]
-            },
-            {
-                methodName: "ListarEmprestimosAtrasados",
-                totalTests: 1,
-                failedTests: 0,
-                successTests: 1,
-                avarageDurationMillisInGroup: 50.0,
-                avarageMemoryUsageMbInGroup: 450.2667694091797,
-                individualTestResults: [
-                    {
-                        testName: "Emprestimo_ListarAtrasados_Sucesso",
-                        targetEndpoint: "/emprestimos/atrasados",
-                        success: true,
-                        durationMillis: 50,
-                        httpStatus: 200,
-                        targetServiceMemoryUsedMB: 450.2667694091797,
-                        methodGroupKey: "ListarEmprestimosAtrasados"
-                    }
-                ]
-            },
-            {
-                methodName: "ListarEmprestimosPaginado",
-                totalTests: 1,
-                failedTests: 0,
-                successTests: 1,
-                avarageDurationMillisInGroup: 130.0,
-                avarageMemoryUsageMbInGroup: 450.1347961425781,
-                individualTestResults: [
-                    {
-                        testName: "Emprestimo_ListarPaginado_Sucesso",
-                        targetEndpoint: "/emprestimos?pagina=0&tamanho=5&busca=&atrasados=false",
-                        success: true,
-                        durationMillis: 130,
-                        httpStatus: 200,
-                        targetServiceMemoryUsedMB: 450.1347961425781,
-                        methodGroupKey: "ListarEmprestimosPaginado"
-                    }
-                ]
-            }
-        ]
-    };
+    async function executarPipelineDeTestes() {
+        try {
+            setExecutando(true);
+
+            const post = async (url) => {
+                const response = await axios.post(url);
+                return response.data;
+            };
+
+            await post("/data-admin/cleanup/all");
+
+            const turmas = await post("/v1/trigger-tests/module/turmas");
+            setTurmasData(turmas);
+
+            const alunos = await post("/v1/trigger-tests/module/alunos");
+            setAlunosData(alunos);
+
+            const categorias = await post("/v1/trigger-tests/module/categorias");
+            setCategoriasData(categorias);
+
+            const livros = await post("/v1/trigger-tests/module/livros");
+            setLivrosData(livros);
+
+            const emprestimos = await post("/v1/trigger-tests/module/emprestimos");
+            setEmprestimosData(emprestimos);
+
+        } catch (err) {
+            console.error("Erro ao executar pipeline de testes:", err);
+            alert("Erro ao executar os testes. Verifique o console.");
+        } finally {
+            setExecutando(false);
+        }
+    }
 
     if (loading) {
         return (
@@ -190,21 +88,22 @@ export function Dashboard() {
                     Painel de testes da aplicação
                 </h2>
                 <button
-                    className="min-w-30 w-fit h-9 flex items-center justify-center px-4 rounded-full bg-[#0292B7] border-[1px] border-[#0292B7] text-white cursor-pointer text-sm relative top-8"
-
+                    onClick={executarPipelineDeTestes}
+                    disabled={executando}
+                    className={`min-w-30 w-fit h-9 flex items-center justify-center px-4 rounded-full ${executando ? "bg-gray-400" : "bg-[#0292B7]"} border-[1px] border-[#0292B7] text-white cursor-pointer text-sm relative top-8`}
                 >
-                    Executar Testes
+                    {executando ? "Executando..." : "Executar Testes"}
                 </button>
             </div>
 
             <p className="text-[#555555] mt-1">Por serviço</p>
 
             <div className="mt-10 flex flex-col gap-4">
-                <SessaoTurmas data={emprestimosJson} />
-                <SessaoAlunos data={emprestimosJson} />
-                <SessaoCategorias data={emprestimosJson} />
-                <SessaoLivros data={emprestimosJson} />
-                <SessaoEmprestimos data={emprestimosJson} />
+                {turmasData && <SessaoTurmas data={turmasData} />}
+                {alunosData && <SessaoAlunos data={alunosData} />}
+                {categoriasData && <SessaoCategorias data={categoriasData} />}
+                {livrosData && <SessaoLivros data={livrosData} />}
+                {emprestimosData && <SessaoEmprestimos data={emprestimosData} />}
             </div>
         </motion.div>
     );
