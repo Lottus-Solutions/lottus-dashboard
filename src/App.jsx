@@ -1,9 +1,26 @@
+import { useState, useEffect } from "react";
 import { Dashboard } from "./components/Dashboard";
 import { Login } from "./auth/Login";
-import { useState } from "react";
 
 export default function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
+
+  useEffect(() => {
+    // Atualiza o token se ele mudar no localStorage (por login ou logout)
+    const handleStorageChange = () => {
+      setToken(localStorage.getItem("token"));
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+
+  const handleLogin = () => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  };
 
   return (
     <div className="relative h-screen w-screen overflow-hidden">
@@ -12,9 +29,8 @@ export default function App() {
       </div>
 
       {!token && (
-        <div className="fixed inset-0 flex items-center justify-center">
-          <Login onLogin={() => setToken("token-simulado")} />
-
+        <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-80">
+          <Login onLogin={handleLogin} />
         </div>
       )}
     </div>
